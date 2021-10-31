@@ -14,11 +14,6 @@ import com.thefear.seconttrymynotes.R;
 
 public class SettingsFragment extends Fragment {
 
-    MaterialButton themesButton;
-    MaterialButton cashButton;
-    MaterialButton aboutButton;
-    MaterialButton menuButton;
-
     public SettingsFragment() {
         super(R.layout.fragment_settings);
     }
@@ -26,28 +21,28 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        themesButton = view.findViewById(R.id.themes_button);
+        MaterialButton themesButton = view.findViewById(R.id.themes_button);
         themesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Активирован вызов перехода на выбор темы", Toast.LENGTH_SHORT).show();
             }
         });
-        cashButton = view.findViewById(R.id.cash_button);
+        MaterialButton cashButton = view.findViewById(R.id.cash_button);
         cashButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Активирован вызов перехода на экран кэша", Toast.LENGTH_SHORT).show();
             }
         });
-        aboutButton = view.findViewById(R.id.about_button);
+        MaterialButton aboutButton = view.findViewById(R.id.about_button);
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getContext(), "Активирован вызов перехода на экран сведений о приложении", Toast.LENGTH_SHORT).show();
             }
         });
-        menuButton = view.findViewById(R.id.menu_button);
+        MaterialButton menuButton = view.findViewById(R.id.menu_button);
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

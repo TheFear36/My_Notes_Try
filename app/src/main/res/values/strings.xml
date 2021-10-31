@@ -10,4 +10,13 @@
     <string name="settings_internet">Кэш из облачного хранилища</string>
     <string name="about">О приложении</string>
     <string name="back_to_menu">Вернуться в меню</string>
+    <string name="note_add">Add New Note</string>
+    <string name="share">Share</string>
+    <string name="list_title">Список заметок</string>
+    <string name="list_notes">Список заметок</string>
+    <string name="exit">Выход из приложения</string>
+    <string name="refresh">Обновить</string>
+    <string name="info_title">Заметка</string>
+    <string name="drawer_open">Открыть</string>
+    <string name="drawer_close">Закрыть</string>
 </resources>
