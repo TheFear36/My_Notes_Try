@@ -1,7 +1,6 @@
 package com.thefear.seconttrymynotes.fragments;
 
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +18,7 @@ import com.thefear.seconttrymynotes.domain.UserNotesRepository;
 
 public class NotesInfoFragment extends Fragment {
 
-    private static String ARG_NOTE = "ARG_NOTE";
+    private static final String ARG_NOTE = "ARG_NOTE";
 
     private EditText titleNote;
     private EditText infoNote;
@@ -37,35 +36,28 @@ public class NotesInfoFragment extends Fragment {
             ToolbarForActivity drawer = (ToolbarForActivity) getActivity();
             drawer.setToolbar(toolbar);
         }
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_share) {
-                    Toast.makeText(requireContext(), "Поделиться", Toast.LENGTH_SHORT).show();
-                    return true;
-                } else if (item.getItemId() == R.id.action_save) {
-                    saveNote();
-                    return true;
-                }
-                return false;
+        toolbar.setOnMenuItemClickListener(item -> {
+            if (item.getItemId() == R.id.action_share) {
+                Toast.makeText(requireContext(), R.string.share, Toast.LENGTH_SHORT).show();
+                return true;
+            } else if (item.getItemId() == R.id.action_save) {
+                saveNote();
+                return true;
             }
+            return false;
         });
 
         titleNote = view.findViewById(R.id.name_note);
         infoNote = view.findViewById(R.id.info_note);
 
-        MaterialButton saveButton = view.findViewById(R.id.save_button);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveNote();
-            }
-        });
         if (getArguments() != null) {
             Note note = getArguments().getParcelable(ARG_NOTE);
             titleNote.setText(note.getTitle());
             infoNote.setText(note.getInfo());
         }
+
+        MaterialButton saveButton = view.findViewById(R.id.save_button);
+        saveButton.setOnClickListener(view1 -> saveNote());
     }
 
     void saveNote() {

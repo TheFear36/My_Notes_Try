@@ -6,4 +6,8 @@ import java.util.ArrayList;
 
 public interface NotesListView {
     void showNotes(ArrayList<Note> notes);
+
+    void showProgress();
+
+    void hideProgress();
 }
