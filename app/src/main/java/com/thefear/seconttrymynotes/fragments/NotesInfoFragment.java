@@ -1,23 +1,28 @@
 package com.thefear.seconttrymynotes.fragments;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.google.android.material.button.MaterialButton;
 import com.thefear.seconttrymynotes.R;
+import com.thefear.seconttrymynotes.contracts.ToolbarForActivity;
 import com.thefear.seconttrymynotes.domain.Note;
 import com.thefear.seconttrymynotes.domain.UserNotesRepository;
 
 public class NotesInfoFragment extends Fragment {
 
-    EditText titleNote;
-    EditText infoNote;
-    MaterialButton saveButton;
+    private static String ARG_NOTE = "ARG_NOTE";
+
+    private EditText titleNote;
+    private EditText infoNote;
 
     public NotesInfoFragment() {
         super(R.layout.fragments_notes_info);
@@ -27,10 +32,29 @@ public class NotesInfoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Toolbar toolbar = view.findViewById(R.id.info_toolbar);
+        if (getActivity() instanceof ToolbarForActivity) {
+            ToolbarForActivity drawer = (ToolbarForActivity) getActivity();
+            drawer.setToolbar(toolbar);
+        }
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.action_share) {
+                    Toast.makeText(requireContext(), "Поделиться", Toast.LENGTH_SHORT).show();
+                    return true;
+                } else if (item.getItemId() == R.id.action_save) {
+                    saveNote();
+                    return true;
+                }
+                return false;
+            }
+        });
+
         titleNote = view.findViewById(R.id.name_note);
         infoNote = view.findViewById(R.id.info_note);
 
-        saveButton = view.findViewById(R.id.save_button);
+        MaterialButton saveButton = view.findViewById(R.id.save_button);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -42,7 +66,6 @@ public class NotesInfoFragment extends Fragment {
             titleNote.setText(note.getTitle());
             infoNote.setText(note.getInfo());
         }
-
     }
 
     void saveNote() {
@@ -56,6 +79,4 @@ public class NotesInfoFragment extends Fragment {
         NotesInfoFragment fragment = new NotesInfoFragment();
         fragment.setArguments(args);
     }
-
-    private static String ARG_NOTE = "ARG_NOTE";
 }
