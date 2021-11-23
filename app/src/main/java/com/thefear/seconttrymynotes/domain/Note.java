@@ -3,12 +3,16 @@ package com.thefear.seconttrymynotes.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Objects;
+
 public class Note implements Parcelable {
 
+    private String id;
     private String title;
     private String info;
 
-    public Note(String title, String info) {
+    public Note(String id, String title, String info) {
+        this.id = id;
         this.title = title;
         this.info = info;
     }
@@ -47,5 +51,22 @@ public class Note implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(title);
         parcel.writeString(info);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Note note = (Note) o;
+        return Objects.equals(title, note.title) && Objects.equals(info, note.info);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, info);
+    }
+
+    public String getId() {
+        return id;
     }
 }

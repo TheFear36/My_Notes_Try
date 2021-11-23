@@ -2,6 +2,8 @@ package com.thefear.seconttrymynotes.fragments;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -22,7 +24,7 @@ import com.thefear.seconttrymynotes.domain.Note;
 import com.thefear.seconttrymynotes.domain.NotesAdapter;
 import com.thefear.seconttrymynotes.domain.UserNotesRepository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class NotesListFragment extends Fragment implements NotesListView {
     private RecyclerView notesContainer;
@@ -33,8 +35,17 @@ public class NotesListFragment extends Fragment implements NotesListView {
 
     private ProgressBar progressBar;
 
+    private Note selectedNote;
+
     public NotesListFragment() {
         super(R.layout.fragment_notes_list);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        adapter = new NotesAdapter(this);
     }
 
     @Override
@@ -45,13 +56,22 @@ public class NotesListFragment extends Fragment implements NotesListView {
         notesContainer.setAdapter(adapter);
 
         progressBar = view.findViewById(R.id.progress);
-
-        adapter = new NotesAdapter();
-
         presenter = new NoteListPresenter(this, UserNotesRepository.getInstance());
         presenter.requestNotes();
 
-        adapter.setNoteClicked(note -> clickOnItemView());
+        adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
+            @Override
+            public void onNoteClicked(Note note) {
+                selectedNote = note;
+                clickOnItemView();
+            }
+
+            @Override
+            public void onNoteLongClicked(View view, Note note) {
+                longClickOnItemView(view);
+                selectedNote = note;
+            }
+        });
 
         Toolbar toolbar = view.findViewById(R.id.list_toolbar);
 
@@ -73,11 +93,18 @@ public class NotesListFragment extends Fragment implements NotesListView {
             }
             return false;
         });
+
+        getParentFragmentManager().setFragmentResultListener(NotesInfoFragment.KEY_RESULT, getViewLifecycleOwner(), (requestKey, result) -> {
+            String title = result.getString(NotesInfoFragment.ARG_TITLE);
+            String info = result.getString(NotesInfoFragment.ARG_INFO);
+
+            presenter.updateNote(title, info, selectedNote);
+        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
     @Override
-    public void showNotes(ArrayList<Note> notes) {
+    public void showNotes(List<Note> notes) {
         RecyclerView.LayoutManager lm = new LinearLayoutManager(requireContext(),
                 LinearLayoutManager.VERTICAL, false);
         notesContainer.setLayoutManager(lm);
@@ -94,6 +121,20 @@ public class NotesListFragment extends Fragment implements NotesListView {
     @Override
     public void hideProgress() {
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void deleteNote(Note selectedNote) {
+        int position = adapter.deleteNote(selectedNote);
+
+        adapter.notifyItemRemoved(position);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void updateNote(Note result) {
+        adapter.updateNote(result);
+        adapter.notifyDataSetChanged();
     }
 
     void createNewNote() {
@@ -115,8 +156,33 @@ public class NotesListFragment extends Fragment implements NotesListView {
     void clickOnItemView() {
         FragmentManager fragmentManager = getParentFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, new NotesInfoFragment())
+                .replace(R.id.fragment_container, NotesInfoFragment.newInstance(selectedNote))
                 .addToBackStack(null)
                 .commit();
+    }
+
+    private void longClickOnItemView(View v) {
+        v.showContextMenu();
+
+    }
+
+    @Override
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+
+        requireActivity().getMenuInflater().inflate(R.menu.item_context_menu, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_update) {
+
+            return true;
+        }
+        if (item.getItemId() == R.id.action_delete) {
+            presenter.delete(selectedNote);
+            return true;
+        }
+        return super.onContextItemSelected(item);
     }
 }

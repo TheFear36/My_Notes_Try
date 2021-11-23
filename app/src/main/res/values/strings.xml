@@ -22,4 +22,6 @@
     <string name="positive_putton">Выйти</string>
     <string name="negative_button">Остаться</string>
     <string name="exit_message">Вы уверены, что хотите выйти?</string>
+    <string name="update">Изменить</string>
+    <string name="delete">Удалить</string>
 </resources>
