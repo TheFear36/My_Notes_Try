@@ -70,6 +70,11 @@ public class UserNotesRepository implements NotesRepository {
         });
     }
 
+    @Override
+    public void addNote(Note note, Callback<Note> callback) {
+
+    }
+
     public void addNote(Note note) {
         data.add(note);
     }

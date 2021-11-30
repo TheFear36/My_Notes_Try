@@ -30,6 +30,10 @@ public class NotesAdapter extends RecyclerView.Adapter<NotesAdapter.NoteViewHold
         return index;
     }
 
+    public void add(Note note) {
+        notes.add(note);
+    }
+
     public int updateNote(Note selectedNote) {
         int index = -1;
 

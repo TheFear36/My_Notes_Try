@@ -14,4 +14,6 @@ public interface NotesListView {
     void deleteNote(Note selectedNote);
 
     void updateNote(Note result);
+
+    void addNote(Note result);
 }

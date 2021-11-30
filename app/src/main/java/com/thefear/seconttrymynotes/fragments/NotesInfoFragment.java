@@ -14,9 +14,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.button.MaterialButton;
 import com.thefear.seconttrymynotes.R;
 import com.thefear.seconttrymynotes.contracts.ToolbarForActivity;
-import com.thefear.seconttrymynotes.domain.Callback;
 import com.thefear.seconttrymynotes.domain.Note;
-import com.thefear.seconttrymynotes.domain.UserNotesRepository;
 
 import java.util.UUID;
 
@@ -25,8 +23,10 @@ public class NotesInfoFragment extends Fragment {
     public static final String ARG_NOTE = "ARG_NOTE";
 
     public static final String KEY_RESULT = "KEY_RESULTNotesInfoFragment";
+    public static final String KEY_RESULT_ADD = "ADD_KEY_RESULTNotesInfoFragment";
     public static final String ARG_TITLE = "ARG_TITLE";
     public static final String ARG_INFO = "ARG_INFO";
+    public static final String ARG_ID = "ARG_ID";
 
     public static NotesInfoFragment newInstance(Note note) {
         NotesInfoFragment fragment = new NotesInfoFragment();
@@ -87,7 +87,7 @@ public class NotesInfoFragment extends Fragment {
 
         getParentFragmentManager().setFragmentResult(KEY_RESULT, bundle);
 
-        UserNotesRepository.getInstance().update(UUID.randomUUID().toString(), titleNote.getText().toString(), infoNote.getText().toString(), new Callback<Note>() {
+        /*UserNotesRepository.getInstance().update(UUID.randomUUID().toString(), titleNote.getText().toString(), infoNote.getText().toString(), new Callback<Note>() {
             @Override
             public void onSuccess(Note result) {
                 backToList();
@@ -97,14 +97,19 @@ public class NotesInfoFragment extends Fragment {
             public void onError(Throwable error) {
 
             }
-        });
+        });*/
 
     }
 
     void saveNote() {
-        Note note = new Note(UUID.randomUUID().toString(), titleNote.getText().toString(), infoNote.getText().toString());
+        Bundle bundle = new Bundle();
+        bundle.putString(ARG_ID, UUID.randomUUID().toString());
+        bundle.putString(ARG_TITLE, titleNote.getText().toString());
+        bundle.putString(ARG_INFO, infoNote.getText().toString());
 
-        UserNotesRepository.getInstance().addNote(note);
+        getParentFragmentManager().setFragmentResult(KEY_RESULT_ADD, bundle);
+
+        //UserNotesRepository.getInstance().addNote(note);
 
         backToList();
     }

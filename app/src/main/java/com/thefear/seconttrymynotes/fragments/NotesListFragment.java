@@ -22,14 +22,14 @@ import com.thefear.seconttrymynotes.R;
 import com.thefear.seconttrymynotes.contracts.ToolbarForActivity;
 import com.thefear.seconttrymynotes.domain.Note;
 import com.thefear.seconttrymynotes.domain.NotesAdapter;
-import com.thefear.seconttrymynotes.domain.UserNotesRepository;
+import com.thefear.seconttrymynotes.domain.SharedPrefRepository;
 
 import java.util.List;
 
 public class NotesListFragment extends Fragment implements NotesListView {
     private RecyclerView notesContainer;
 
-    NoteListPresenter presenter;
+    private NoteListPresenter presenter;
 
     private NotesAdapter adapter;
 
@@ -56,7 +56,7 @@ public class NotesListFragment extends Fragment implements NotesListView {
         notesContainer.setAdapter(adapter);
 
         progressBar = view.findViewById(R.id.progress);
-        presenter = new NoteListPresenter(this, UserNotesRepository.getInstance());
+        presenter = new NoteListPresenter(this, new SharedPrefRepository(requireActivity().getApplicationContext()));
         presenter.requestNotes();
 
         adapter.setNoteClicked(new NotesAdapter.OnNoteClicked() {
@@ -100,6 +100,15 @@ public class NotesListFragment extends Fragment implements NotesListView {
 
             presenter.updateNote(title, info, selectedNote);
         });
+        getParentFragmentManager().setFragmentResultListener(NotesInfoFragment.KEY_RESULT_ADD, getViewLifecycleOwner(), (requestKey, result) -> {
+            String id = result.getString(NotesInfoFragment.ARG_ID);
+            String title = result.getString(NotesInfoFragment.ARG_TITLE);
+            String info = result.getString(NotesInfoFragment.ARG_INFO);
+
+            Note newNote = new Note(id, title, info);
+
+            presenter.add(newNote);
+        });
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -134,6 +143,12 @@ public class NotesListFragment extends Fragment implements NotesListView {
     @Override
     public void updateNote(Note result) {
         adapter.updateNote(result);
+        adapter.notifyDataSetChanged();
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    public void addNote(Note result) {
+        adapter.add(result);
         adapter.notifyDataSetChanged();
     }
 
