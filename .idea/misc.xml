@@ -4,11 +4,17 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout-land/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/activity_main.xml" value="0.3592592592592593" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/fragment_notes_list.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/fragment_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/fragments_notes_info.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/item_note.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/layout/nav_header.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/menu/info_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/menu/item_context_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/menu/list_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/menu/main_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/squan/AndroidStudioProjects/Seconttrymynotes/app/src/main/res/menu/nav_menu.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

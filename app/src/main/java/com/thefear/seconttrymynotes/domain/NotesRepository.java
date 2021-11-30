@@ -1,7 +1,13 @@
 package com.thefear.seconttrymynotes.domain;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface NotesRepository {
-    ArrayList<Note> getNotes();
+    void getNotes(Callback<List<Note>> notes);
+
+    void delete(Note note, Callback<Void> callback);
+
+    void update(String id, String title, String info, Callback<Note> callback);
+
+    void addNote(Note note, Callback<Note> callback);
 }
